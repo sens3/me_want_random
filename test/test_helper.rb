@@ -1,4 +1,5 @@
 require 'rubygems'
+gem 'rails', '<3.0.0'
 require 'test/unit'
 require 'active_support'
 require 'active_support/test_case'

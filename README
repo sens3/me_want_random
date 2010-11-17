@@ -25,19 +25,19 @@ A blog has posts. Posts can be "liked".
 We want to show our users which posts are popular.
 Instead of always displaying the same 5 post with the most "likes", we want a random selection of the 50 most liked ones.
 
-Post.randomly_select(5, :order => 'like_count')
+Post.randomly_select({:limit =>5}, {:order => 'like_count'})
 # => Post.all(:order => 'like_count', :limit => 50).randomize.first(5)
 
 You can also specify the factor (10 per default)
 
-Post.randomly_select(5, :order => 'like_count', 30)
+Post.randomly_select({:limit => 5, :factor => 30}, :order => 'like_count')
 # => Post.all(:order => 'like_count', :limit => 150).randomize.first(5)
 
-Of course this also works with scoping
-Post.published.order_by('like_count').randomly_select(4)
+Of course this also works with scopes
+Post.published.order_by('like_count').randomly_select(:limit => 4)
 
-THIS would make NO sens
-Post.randomly_select(5)
+THIS would make NO sense
+Post.randomly_select(:limit => 5)
 
 Use MySQL's RAND() instead: 
 Post.all(:order => 'RAND()', :limit => '5')
