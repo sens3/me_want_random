@@ -1,0 +1,46 @@
+Me-want-random
+==============
+
+Adds a few simple utility methods to Array and ActiveRecord
+
+Array#randomize
+======
+
+returns the array's elements in random order
+
+Example:
+[1,2,3].randomize # => [2,3,1]
+[1,2,3].randomize # => [1,3,2]
+...
+
+
+
+ActiveRecord::Base.randomly_select
+======
+
+Useful for selecting random elements if 'order' is already used for scoping.
+
+Example:
+A blog has posts. Posts can be "liked".
+We want to show our users which posts are popular.
+Instead of always displaying the same 5 post with the most "likes", we want a random selection of the 50 most liked ones.
+
+Post.randomly_select(5, :order => 'like_count')
+# => Post.all(:order => 'like_count', :limit => 50).randomize.first(5)
+
+You can also specify the factor (10 per default)
+
+Post.randomly_select(5, :order => 'like_count', 30)
+# => Post.all(:order => 'like_count', :limit => 150).randomize.first(5)
+
+Of course this also works with scoping
+Post.published.order_by('like_count').randomly_select(4)
+
+THIS would make NO sens
+Post.randomly_select(5)
+
+Use MySQL's RAND() instead: 
+Post.all(:order => 'RAND()', :limit => '5')
+
+
+Copyright (c) 2010 Simon Baumgartner, released under the MIT license
